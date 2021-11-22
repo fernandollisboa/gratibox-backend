@@ -7,7 +7,7 @@ export default async function auth(req, res, next) {
 
   try {
     const session = await connection.query(
-      'SELECT * FROM session WHERE token = $1',
+      'SELECT * FROM session WHERE token = $1;',
       [token],
     );
 

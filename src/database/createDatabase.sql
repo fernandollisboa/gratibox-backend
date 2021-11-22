@@ -10,13 +10,13 @@ CREATE TABLE "customer" (
 
 
 
-CREATE TABLE "costumer_plan" (
-	"customer_id" integer NOT NULL,
+CREATE TABLE "customer_plan" (
+	"customer_id" integer UNIQUE NOT NULL,
 	"plan_id" integer NOT NULL,
-	"name" TEXT NOT NULL,
 	"address" TEXT NOT NULL,
 	"cep" TEXT NOT NULL,
-	"state" TEXT NOT NULL
+	"state" TEXT NOT NULL,
+	"name" TEXT NOT NULL
 ) WITH (
   OIDS=FALSE
 );
@@ -27,7 +27,7 @@ CREATE TABLE "plan" (
 	"id" serial NOT NULL,
 	"type" CHAR(5) NOT NULL,
 	"created_at" DATE NOT NULL,
-	"next_delivery" DATE NOT NULL,
+	"deliveryRateId" integer NOT NULL,
 	CONSTRAINT "plan_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -86,8 +86,8 @@ CREATE TABLE "product" (
 
 
 
-ALTER TABLE "costumer_plan" ADD CONSTRAINT "costumer_plan_fk0" FOREIGN KEY ("customer_id") REFERENCES "customer"("id");
-ALTER TABLE "costumer_plan" ADD CONSTRAINT "costumer_plan_fk1" FOREIGN KEY ("plan_id") REFERENCES "plan"("id");
+ALTER TABLE "customer_plan" ADD CONSTRAINT "customer_plan_fk0" FOREIGN KEY ("customer_id") REFERENCES "customer"("id");
+ALTER TABLE "customer_plan" ADD CONSTRAINT "customer_plan_fk1" FOREIGN KEY ("plan_id") REFERENCES "plan"("id");
 
 
 ALTER TABLE "session" ADD CONSTRAINT "session_fk0" FOREIGN KEY ("customer_id") REFERENCES "customer"("id");
@@ -99,10 +99,9 @@ ALTER TABLE "plan_delivery" ADD CONSTRAINT "plan_delivery_fk1" FOREIGN KEY ("del
 ALTER TABLE "plan_product" ADD CONSTRAINT "plan_product_fk0" FOREIGN KEY ("plan_id") REFERENCES "plan"("id");
 ALTER TABLE "plan_product" ADD CONSTRAINT "plan_product_fk1" FOREIGN KEY ("product_id") REFERENCES "product"("id");
 
-
-
-
-
+INSERT INTO product (id, name) VALUES (0,'Chás');
+INSERT INTO product (id, name) VALUES (1,'Incensos');
+INSERT INTO product (id, name) VALUES (2,'Produtos Orgânicos');
 
 
 
