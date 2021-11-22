@@ -7,9 +7,18 @@
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": 13,
+        "ecmaVersion": 12,
         "sourceType": "module"
     },
     "rules": {
+        "no-console": "off",
+        "global-require": "off",
+        "treatUndefinedAsUnspecified": true,
+        "import/extensions": [
+    "error",
+    {
+        "js": "ignorePackages"
+    }
+   ]
     }
 }

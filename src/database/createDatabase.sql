@@ -1,16 +1,17 @@
-CREATE TABLE "user" (
+CREATE TABLE "customer" (
 	"id" serial NOT NULL,
+	"name" TEXT NOT NULL,
 	"email" TEXT NOT NULL UNIQUE,
 	"password" TEXT NOT NULL,
-	CONSTRAINT "user_pk" PRIMARY KEY ("id")
+	CONSTRAINT "customer_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "user_plan" (
-	"user_id" integer NOT NULL,
+CREATE TABLE "costumer_plan" (
+	"customer_id" integer NOT NULL,
 	"plan_id" integer NOT NULL,
 	"name" TEXT NOT NULL,
 	"address" TEXT NOT NULL,
@@ -21,9 +22,10 @@ CREATE TABLE "user_plan" (
 );
 
 
+
 CREATE TABLE "plan" (
 	"id" serial NOT NULL,
-	"type" TEXT(5) NOT NULL,
+	"type" CHAR(5) NOT NULL,
 	"created_at" DATE NOT NULL,
 	"next_delivery" DATE NOT NULL,
 	CONSTRAINT "plan_pk" PRIMARY KEY ("id")
@@ -35,8 +37,8 @@ CREATE TABLE "plan" (
 
 CREATE TABLE "session" (
 	"id" serial NOT NULL,
-	"user_id" integer NOT NULL,
-	"token" serial NOT NULL,
+	"customer_id" integer NOT NULL,
+	"token" TEXT NOT NULL,
 	CONSTRAINT "session_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -44,7 +46,7 @@ CREATE TABLE "session" (
 
 
 
-CREATE TABLE "public.delivery" (
+CREATE TABLE "delivery" (
 	"id" serial NOT NULL,
 	"day" DATE NOT NULL,
 	"is_finished" BOOLEAN NOT NULL DEFAULT 'FALSE',
@@ -84,11 +86,11 @@ CREATE TABLE "product" (
 
 
 
-ALTER TABLE "user_plan" ADD CONSTRAINT "user_plan_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
-ALTER TABLE "user_plan" ADD CONSTRAINT "user_plan_fk1" FOREIGN KEY ("plan_id") REFERENCES "plan"("id");
+ALTER TABLE "costumer_plan" ADD CONSTRAINT "costumer_plan_fk0" FOREIGN KEY ("customer_id") REFERENCES "customer"("id");
+ALTER TABLE "costumer_plan" ADD CONSTRAINT "costumer_plan_fk1" FOREIGN KEY ("plan_id") REFERENCES "plan"("id");
 
 
-ALTER TABLE "session" ADD CONSTRAINT "session_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
+ALTER TABLE "session" ADD CONSTRAINT "session_fk0" FOREIGN KEY ("customer_id") REFERENCES "customer"("id");
 
 
 ALTER TABLE "plan_delivery" ADD CONSTRAINT "plan_delivery_fk0" FOREIGN KEY ("plan_id") REFERENCES "plan"("id");
