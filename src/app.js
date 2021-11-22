@@ -9,11 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/health", (req, res) => {
-	return res.send("Tudo massa meu rei");
-});
-
 app.post("/sign-up", signup);
-app.post("/login", auth, login);
+app.post("/login", login);
 
 export default app;

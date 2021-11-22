@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { v4 as uuid } from "uuid";
 import connection from "../database/connection.js";
 import { signupSchema } from "../schemas/auth.js";
 
@@ -10,7 +9,7 @@ export default async function signup(req, res) {
 	const { name, email, password } = req.body;
 
 	try {
-		const duplicateEmailCheck = await connection.query("SELECT * FROM user WHERE email = $1;", [
+		const duplicateEmailCheck = await connection.query(`SELECT * FROM customer WHERE email = $1;`, [
 			req.body.email,
 		]);
 
@@ -20,14 +19,14 @@ export default async function signup(req, res) {
 
 		const passwordHash = bcrypt.hashSync(password, 10);
 
-		await connection.query("INSERT INTO user (name, email, password) VALUES ($1, $2, $3);", [
+		await connection.query("INSERT INTO customer (name, email, password) VALUES ($1, $2, $3);", [
 			name,
 			email,
 			passwordHash,
 		]);
 
 		return res.sendStatus(201);
-	} catch (e) {
+	} catch (err) {
 		console.log(err);
 		return res.sendStatus(500);
 	}

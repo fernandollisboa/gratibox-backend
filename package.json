@@ -2,12 +2,12 @@
   "name": "gratibox-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "./src/server.js",
   "repository": "https://github.com/fernandollisboa/gratibox-backend",
   "author": "Fernando Lisboa",
   "scripts": {
     "start": "NODE_ENV=prod node ./src/server.js",
-    "dev": "NODE_ENV=dev nodemon ./src/server.js",
+    "dev": "NODE_ENV=dev node ./src/server.js",
     "test": "npx jest -i --runInBand"
   },
   "license": "ISC",

@@ -10,28 +10,33 @@ export default async function login(req, res) {
 	const { email, password } = req.body;
 
 	try {
-		const emailExistsCheck = await connection.query("SELECT * FROM user WHERE email = $1;", [
+		const emailExistsCheck = await connection.query("SELECT * FROM customer WHERE email = $1;", [
 			email,
 		]);
 
 		if (emailExistsCheck.rows.length === 0) return res.sendStatus(404);
 
-		const user = emailExistsCheck.rows[0];
+		const customer = emailExistsCheck.rows[0];
 
-		if (!bcrypt.compareSync(password, user.password)) return res.sendStatus(403);
-		delete user.password;
+		if (!bcrypt.compareSync(password, customer.password)) return res.sendStatus(403);
+		delete customer.password;
 
 		const token = uuid();
 
-		const session = await connection.query(`SELECT * FROM session WHERE "userId" = $1;`, [user.id]);
+		const session = await connection.query(`SELECT * FROM session WHERE customer_id = $1;`, [
+			customer.id,
+		]);
 
 		if (session.rows.length === 0) {
-			await connection.query(`INSERT INTO session (user_id,token) VALUES ($1,$2);`, [
-				user.id,
+			await connection.query(`INSERT INTO session (customer_id,token) VALUES ($1,$2);`, [
+				customer.id,
 				token,
 			]);
 		} else {
-			await connection.query(`UPDATE session SET token = $1 WHERE user_id = $2;`, [token, user.id]);
+			await connection.query(`UPDATE session SET token = $1 WHERE customer_id = $2;`, [
+				token,
+				customer.id,
+			]);
 		}
 
 		const name = emailExistsCheck.rows[0].name;
