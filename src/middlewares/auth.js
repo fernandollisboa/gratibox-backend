@@ -1,12 +1,13 @@
+/* eslint-disable consistent-return */
 import connection from '../database/connection.js';
 
 export default async function auth(req, res, next) {
-  const authorization = req.headers['authorization'];
+  const { authorization } = req.headers;
   const token = authorization?.split('Bearer ')[1];
 
   try {
     const session = await connection.query(
-      `SELECT * FROM session WHERE token = $1`,
+      'SELECT * FROM session WHERE token = $1',
       [token],
     );
 
