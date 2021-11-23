@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
@@ -6,13 +7,11 @@ import connection from '../database/connection.js';
 import subscriptionSchema from '../schemas/subscription.js';
 
 export async function postSubscription(req, res) {
-  const now = dayjs().format('DD/MM/YYYY');
-  console.log(now);
+  const now = dayjs().format();
 
   const { userID } = req.body;
   const { name, address, cep, city, state } = req.body?.delivery;
   const { type, deliveryRateId, products } = req.body?.plan;
-  console.log(cep);
 
   const validation = subscriptionSchema.validate({
     userID,
